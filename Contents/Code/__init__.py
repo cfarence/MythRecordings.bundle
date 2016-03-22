@@ -86,9 +86,9 @@ def GetReadableKeyName(keyname):
 ####################################################################################################
 # User configurable data:
 # =======================
-# This section contains configuration that a user may wish to configure according to taste and 
+# This section contains configuration that a user may wish to configure according to taste and
 # needs.
-# 
+#
 # This really belongs in the user preferences. But since preferences only handle simple types
 # (bool, text,...), this proved unwieldy (editing a Python list-of-lists using a 4-button Roku
 # remote control is ... interesting).
@@ -107,10 +107,10 @@ def GetReadableKeyName(keyname):
 #    {Title = "Sherlock Holmes - A Scandal in Belgravia", Subtitle = "British series, 2012"}
 #    {Title = "Sherlock Holmes - The Hounds of Baskerville", Subtitle = "British series, 2012"}
 #
-# These do not match by title, and will not immediately be recognized as episodes of the same 
+# These do not match by title, and will not immediately be recognized as episodes of the same
 # series.
 #
-# But if you add "-" to the title splitters list below, the metadata will be reorganized as 
+# But if you add "-" to the title splitters list below, the metadata will be reorganized as
 # follows:
 #
 #    {Title = "Sherlock Holmes", Subtitle = "A Scandal in Belgravia - British series, 2012"}
@@ -118,7 +118,7 @@ def GetReadableKeyName(keyname):
 #
 # Example TitleSplitters.json:
 #    [
-# 	   '-', 
+# 	   '-',
 # 	   ':'
 #    ]
 #
@@ -138,24 +138,24 @@ TITLE_NOSPLITTERS = json.loads(Resource.Load("TitleSplitExemptions.json")) # Reg
 # ================
 # When grouping recordings by category, the category names are not always consistent -
 # often the category values deoend on the channel the recording was made from.
-# 
+#
 # To avoid having the category list filled up with categories that only vary in spelling
 # or language, the CategoryAliases list-of-lists below is used.
-# 
-# CategoryAliases is a list of alias lists. Each alias list consists of the canonical 
+#
+# CategoryAliases is a list of alias lists. Each alias list consists of the canonical
 # name, followed by aliases.
 #
 # Whenever an alias value is met, it is replaced with the corresponding canonical name.
-# 
+#
 # Example CategoryAliases.json:
 
 # 	[
 # 		["SERIES", "Series", "series", "serie"],
-# 		["CHILDREN", "Children", "kids"], 
-# 		["DOCUMENTARY", "documentary", "educational"], 
-# 		["ENTERTAINMENT", "Entertainment", "entertainment"], 
-# 		["MOVIES", "Movie", "movie", "film", "Film", "drama", "Drama"], 
-# 		["SPORT", "Sport", "sport", "Football", "football", "Fodbold", "fodbold"], 
+# 		["CHILDREN", "Children", "kids"],
+# 		["DOCUMENTARY", "documentary", "educational"],
+# 		["ENTERTAINMENT", "Entertainment", "entertainment"],
+# 		["MOVIES", "Movie", "movie", "film", "Film", "drama", "Drama"],
+# 		["SPORT", "Sport", "sport", "Football", "football", "Fodbold", "fodbold"],
 # 		["UNCATEGORIZED", "Uncategorized", "", "Ukategoriseret"]
 # 	]
 
@@ -185,17 +185,17 @@ def MainMenu():
     # By title:
     dir.add(
         DirectoryObject(
-            key=Callback(GroupRecordingsBy, groupByList=['Title'], staticBackground=BY_NAME_BACKGROUND), 
-            title=L2('BY_TITLE'), 
+            key=Callback(GroupRecordingsBy, groupByList=['Title'], staticBackground=BY_NAME_BACKGROUND),
+            title=L2('BY_TITLE'),
             thumb=R(BY_NAME_ICON)
         )
     )
-    
+
     # By category, then by title:
     dir.add(
         DirectoryObject(
-            key=Callback(GroupRecordingsBy, groupByList=['Category', 'Title'], staticBackground=BY_CATEGORY_BACKGROUND), 
-            title=L2('BY_CATEGORY'), 
+            key=Callback(GroupRecordingsBy, groupByList=['Category', 'Title'], staticBackground=BY_CATEGORY_BACKGROUND),
+            title=L2('BY_CATEGORY'),
             thumb=R(BY_CATEGORY_ICON)
         )
     )
@@ -205,7 +205,7 @@ def MainMenu():
     if showByRecordingGroup:
         dir.add(
             DirectoryObject(
-                key=Callback(GroupRecordingsBy, groupByList=['Recording/RecGroup']), 
+                key=Callback(GroupRecordingsBy, groupByList=['Recording/RecGroup']),
                 title=L2('BY_RECORDING_GROUP')
             )
         )
@@ -215,7 +215,7 @@ def MainMenu():
     if showByChannelName:
         dir.add(
             DirectoryObject(
-                key=Callback(GroupRecordingsBy, groupByList=['Channel/ChannelName']), 
+                key=Callback(GroupRecordingsBy, groupByList=['Channel/ChannelName']),
                 title=L2('BY_CHANNEL')
             )
         )
@@ -223,8 +223,8 @@ def MainMenu():
     # By recording date:
     dir.add(
         DirectoryObject(
-            key=Callback(GetRecordingList, sortKeyName='StartTime', staticBackground=BY_DATE_BACKGROUND), 
-            title=L2('BY_RECORDING_DATE'), 
+            key=Callback(GetRecordingList, sortKeyName='StartTime', staticBackground=BY_DATE_BACKGROUND),
+            title=L2('BY_RECORDING_DATE'),
             thumb=R(BY_DATE_ICON)
         )
     )
@@ -232,8 +232,8 @@ def MainMenu():
     # Preferences:
     dir.add(
         PrefsObject(
-            title=L2("PREFERENCES"), 
-            summary=L2("PREFERENCES_SUMMARY"), 
+            title=L2("PREFERENCES"),
+            summary=L2("PREFERENCES_SUMMARY"),
             thumb=R("icon-prefs.png")
         )
     )
@@ -250,13 +250,13 @@ def MainMenu():
 # the group-by key. The group-by key is the first element of the groupBy
 # list.
 #
-# Each sub-directory will have an icon (thumb) and background image (art) associated 
+# Each sub-directory will have an icon (thumb) and background image (art) associated
 # with it.
 #
-# These images will be loaded from 
-#    MythRecordings.bundle/Contents/Resources/${groupKey}Icon_%{groupValue}.png 
-# and 
-#    MythRecordings.bundle/Contents/Resources/${groupKey}Background_%{groupValue}.png 
+# These images will be loaded from
+#    MythRecordings.bundle/Contents/Resources/${groupKey}Icon_%{groupValue}.png
+# and
+#    MythRecordings.bundle/Contents/Resources/${groupKey}Background_%{groupValue}.png
 # respectively.
 #
 #
@@ -287,7 +287,7 @@ def MainMenu():
 # from the MythTV server
 #
 ####################################################################################################
-@route('/video/mythrecordings/GroupRecordingsBy', filterBy = dict, startWith = int, groupByList = list) 
+@route('/video/mythrecordings/GroupRecordingsBy', filterBy = dict, startWith = int, groupByList = list)
 def GroupRecordingsBy(groupByList = [], filterBy = {}, startWith = 0, seriesInetRef = None, staticBackground = None):
 	Log("GroupRecordingsBy(groupByList = %s, filterBy = %s, seriesInetRef = %s, staticBackground = %s)" % (groupByList, filterBy, seriesInetRef, staticBackground))
 	if groupByList is None:
@@ -299,9 +299,9 @@ def GroupRecordingsBy(groupByList = [], filterBy = {}, startWith = 0, seriesInet
 	# If we're not grouping, it's just a plain list (newest first seems convenient):
 	if len(groupByList)==0:
 		return GetRecordingList(filterBy=filterBy, sortKeyName='StartTime', seriesInetRef = seriesInetRef, staticBackground = staticBackground)
-	
+
 	# Get the key to group this level by:
-	
+
 	subdirGroupByList = list(groupByList)
 	groupByKey = subdirGroupByList.pop(0)
 	#groupByKey = groupByList[0]
@@ -317,10 +317,10 @@ def GroupRecordingsBy(groupByList = [], filterBy = {}, startWith = 0, seriesInet
 		backgroundUrl = GetSeriesBackground(seriesInetRef, staticBackground)
 
 	oc = ObjectContainer(title2=title, art=backgroundUrl) # title1 is not displayed (on most clients, anyway)
-	
+
 	# Get the recordings metadata from the MythTV backend:
 	recordings = GetMythTVRecordings(filterBy)
-	
+
 	# Sort the recordings into a {string : recording[]} dictionary
 	entries = {}
 	for recording in recordings:
@@ -344,7 +344,7 @@ def GroupRecordingsBy(groupByList = [], filterBy = {}, startWith = 0, seriesInet
 
 		subdirContents = entries[subdirName]
 		entryTitle = "%s (%s)" % (L2(subdirName), len(subdirContents))
-		
+
 		# Icon and background image for the subdir:
 		subSeriesInetRef = None
 		subdirIconUrl = None
@@ -368,7 +368,7 @@ def GroupRecordingsBy(groupByList = [], filterBy = {}, startWith = 0, seriesInet
 			subdirStaticBackground = '%sBackground_%s.png' % (CamelCase(GetReadableKeyName(groupByKey)), CamelCase(subdirName))
 
 		# Create the subdir:
-		if len(subdirContents) == 1 and groupByKey == "Title": 
+		if len(subdirContents) == 1 and groupByKey == "Title":
                         # Experimental:
                         # =============
                         # If the subdirectory we're about to create only contains a
@@ -387,8 +387,8 @@ def GroupRecordingsBy(groupByList = [], filterBy = {}, startWith = 0, seriesInet
                                         groupByList=subdirGroupByList,
                                         seriesInetRef=subSeriesInetRef,
 					staticBackground = subdirStaticBackground
-                                    ), 
-                                title=entryTitle.decode(), 
+                                    ),
+                                title=entryTitle.decode(),
                                 thumb=subdirIconUrl
                             )
                         )
@@ -400,12 +400,12 @@ def GroupRecordingsBy(groupByList = [], filterBy = {}, startWith = 0, seriesInet
 
 	# OK, now we sort the list:
 	oc.objects.sort(key=lambda obj: obj.title)
-	
+
 	# ...and put in the next-page entry AFTER the sort:
 	if theresMore:
 		oc.add(
 			NextPageObject(
-				key = 
+				key =
 					Callback(
 						GroupRecordingsBy,
 						groupByList = groupByList,
@@ -498,23 +498,23 @@ def GetRecordingList(filterBy = {}, sortKeyName = None, sortReverse = True, star
 
 	backgroundUrl = GetSeriesBackground(seriesInetRef, staticBackground)
 	oc = ObjectContainer(
-		title2 = MakeTitle(filterBy, sortKeyName), 
+		title2 = MakeTitle(filterBy, sortKeyName),
 		art = backgroundUrl
 	)
-	
+
 	recordings = list(GetMythTVRecordings(filterBy))
 
 	# Sorting the list:
 	if (sortKeyName is not None):
 		recordings.sort(key=lambda rec: rec.find(sortKeyName).text, reverse=sortReverse)
-	
+
 	for recording in recordings[int(startWith):]:
 		recordingEntry = Recording(recording, seriesInetRef = seriesInetRef)
 		oc.add(recordingEntry)
 		if USE_PAGING and len(oc) >= MAX_EPISODES_PER_PAGE:
 			oc.add(
 				NextPageObject(
-					key = 
+					key =
 						Callback(
 							GetRecordingList,
 							filterBy = filterBy,
@@ -542,7 +542,7 @@ def all_same(items):
 ####################################################################################################
 def Recording(recording, seriesInetRef = None, staticBackground = None):
 	Log("Recording(recording = %s, seriesInetRef = %s, staticBackground = %s)" % (identify_recording(recording), seriesInetRef, staticBackground))
-	
+
 	# Mandatory properties: Title, Channel, StartTime, EndTime:
 	# =========================================================
 	showname = GetField(recording, 'Title')
@@ -562,8 +562,8 @@ def Recording(recording, seriesInetRef = None, staticBackground = None):
 
 	# Playback URL:
 	# =============
-	# MythTV setting 'Master Backend Override'definition: If enabled, the master backend will stream and 
-	# delete files if it finds them in the video directory. Useful if you are using a central storage 
+	# MythTV setting 'Master Backend Override'definition: If enabled, the master backend will stream and
+	# delete files if it finds them in the video directory. Useful if you are using a central storage
 	# NFS share, and your slave backend isn’t running.
 	#
 	# Note from user sammyjayuk on the Plex forums: GetRecording doesn't respect this setting (it sends
@@ -571,16 +571,16 @@ def Recording(recording, seriesInetRef = None, staticBackground = None):
 	#
 	# For experimental purposes, we'll use GetFile, but only if the user sets this in the settings.
 	respectMasterBackendOverride = Prefs['respectMasterBackendOverride']
-	
+
 	if respectMasterBackendOverride:
 		playbackURL = PVR_URL + 'Content/GetFile?StorageGroup=%s&FileName=%s' % (storageGroup,fileName,)
 	else:
 		playbackURL = PVR_URL + 'Content/GetRecording?ChanId=%s&StartTime=%s' % (chanId,recordingStart,)
 
 	# Optional properties:
-	# ====================	
+	# ====================
 
-	
+
 	# SubTitle:
 	# =========
 
@@ -612,7 +612,7 @@ def Recording(recording, seriesInetRef = None, staticBackground = None):
 		delta = datetime.timedelta(hours=3, minutes=0,seconds=0)
 
 	duration = str(int(delta.seconds * 1000))
-	
+
 	# Check for missing start or end:
 	# ===============================
 
@@ -642,11 +642,11 @@ def Recording(recording, seriesInetRef = None, staticBackground = None):
 	except:
 
 		Warning('Recording: Recording: "%s", Duration error, Unexpected error' % showname)
-		
+
 	# Description:
 	# ============
 	try:
-		descr = GetField(recording, 'Description').strip() 
+		descr = GetField(recording, 'Description').strip()
 		if descr is None:
 			descr = ""
 	except:
@@ -661,10 +661,10 @@ def Recording(recording, seriesInetRef = None, staticBackground = None):
 		if channel == '0':
 			channel = None
 	except:
-		Warning('Recording: Recording: "%s", Could not get channel ID' % showname)			
+		Warning('Recording: Recording: "%s", Could not get channel ID' % showname)
 		channel = None
 
-	
+
 	# Title + subtitle:
 	# =================
 	maxlength = 60
@@ -736,7 +736,7 @@ def Sanitize(str):
 #    ObjectContainer
 ####################################################################################################
 @route('/video/mythrecordings/GetRecordingInfo', allow_sync=True)
-def RecordingInfo(chanId, startTime, seriesInetRef = None):
+def RecordingInfo(chanId, startTime, seriesInetRef = None, checkFiles = 0):
 	Log('RecordingInfo(chanId="%s", startTime="%s" seriesInetRef="%s")' % (chanId, startTime, seriesInetRef))
 	url = PVR_URL + 'Dvr/GetRecorded?StartTime=%s&ChanId=%s' % (startTime, chanId)
 	request = urllib2.Request(url, headers={"Accept" : "application/xml"})
@@ -765,7 +765,7 @@ def RecordingInfo(chanId, startTime, seriesInetRef = None):
 ####################################################################################################
 def GetMythTVRecordings(filterBy):
 	root = InternalGetRecordedList()
-	
+
 	# Loop through recordings, filtering as specified:
 	recordings = root.findall('Programs/Program')
 	result = []
@@ -830,7 +830,7 @@ def identify_recording(recording):
 	chanId = GetField(recording, 'Channel/ChanId')
 	programStart = GetField(recording, 'Recording/StartTs')
 	return "%s/%s" % (chanId, programStart)
-	
+
 ####################################################################################################
 # GetField:
 # =========
@@ -855,7 +855,7 @@ def GetField(recording, fieldName):
 			if not title is None:
 				title = title.decode()
 				#Log("TITLE = '%s'" % title)
-		
+
 			dontSplit = False
 			for nosplitter in TITLE_NOSPLITTERS:
 				dontSplit = re.search(nosplitter, title)
@@ -875,7 +875,7 @@ def GetField(recording, fieldName):
 						else:
 							subtitle = newsubtitle
 						break
-						
+
 			if fieldName == "Title":
 				return title
 			if fieldName == 'SubTitle':
@@ -919,8 +919,8 @@ def MapAliases(keyValue, keyAliases):
 		keyValue = ''
 
 	result = keyValue
-	
-	if isinstance(keyAliases, list): 
+
+	if isinstance(keyAliases, list):
 		for aliasList in keyAliases:
 			if (keyValue in aliasList):
 				result = aliasList[0]
@@ -940,7 +940,7 @@ def MapAliases(keyValue, keyAliases):
 #    list of list of strings
 #
 # Example:
-#    The following JSON formatted alias string defines the canonical names 'Series' and 'Movies', 
+#    The following JSON formatted alias string defines the canonical names 'Series' and 'Movies',
 #    and two synonyms for each:
 #       [['Series', 'serie', 'series'], ['Movies', 'film', 'action']]
 ####################################################################################################
@@ -951,7 +951,7 @@ def LoadAliases(aliasPrefName):
 		return []
 
 	# Workaround:
-	# =========== 
+	# ===========
 	# It is really difficult to edit a list-of-lists in the preferences editor
 	# - so we're moving the aliases to hardcoded variables for now:
 	if aliasPrefName == "categoryAliases":
@@ -998,7 +998,7 @@ def ValidatePrefs():
 		testXML = InternalGetRecordedListUnCached(1)
 		#Log("InternalGetRecordedListUnCached succeeded")
 
-		# Should we test the 
+		# Should we test the
 		#    <Version>0.25.20110928-1</Version>
 		# element for ver >= 0.27
 		version = testXML.find('Version').text
@@ -1012,7 +1012,7 @@ def ValidatePrefs():
 	if major == 0 and minor < 27:
 		errors.append("Your MythTV server is version %s - this plugin is developed for version 0.27 and later" % version)
 
-	# Check CACHE_TIME 
+	# Check CACHE_TIME
 	global CACHE_TIME
 	CACHE_TIME = IntPref('cacheTime', errors)
 	if CACHE_TIME and CACHE_TIME < 0:
@@ -1063,4 +1063,3 @@ def ValidatePrefs():
 		return MessageContainer("Error", errs)
 	#else:
 	#	return MessageContainer("Success","Your MythTV server is version %s" % version)
-
